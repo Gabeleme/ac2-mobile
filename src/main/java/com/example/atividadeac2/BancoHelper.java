@@ -48,7 +48,7 @@ public class BancoHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String InserirFilmes (int id, String titulo, String diretor, int ano, int nota, String genero, int viucinema) {
+    public long InserirFilmes (String titulo, String diretor, int ano, int nota, String genero, int viucinema) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITULO, titulo);
@@ -60,7 +60,7 @@ public class BancoHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_NAME,null, values);
     }
 
-    public String atualizarFilmes (int id, String titulo, String diretor, int ano, int nota, String genero, int viucinema){
+    public int atualizarFilmes (int id, String titulo, String diretor, int ano, int nota, String genero, int viucinema){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITULO, titulo);
@@ -78,6 +78,12 @@ public class BancoHelper extends SQLiteOpenHelper {
 
     public Cursor listarFilmesPorGenero(String genero){
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME,+ " WHERE genero = ?", new String[]{genero});
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE genero = ?", new String[]{genero});
+    }
+
+     public int excluirFilme(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
     }
 }
+
